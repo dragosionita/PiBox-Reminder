@@ -1,4 +1,6 @@
 ﻿<?php
+include 'header.php';
+
 if(isset($_POST['user']) && !isset($_POST['pass']))
 {
 	$error_message = "Please insert your passwor";
@@ -14,7 +16,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 	if (isset($_POST['login']))
 	{
 		if (!$dbhandle) die ($error);
-		$query = "SELECT * FROM user ";
+		$query = "SELECT * FROM reminder WHERE user_fk='1' ";
 		$result = sqlite_query($dbhandle, $query);
 		if (!$result) die("Cannot execute query.");
 		$row = sqlite_fetch_array($result, SQLITE_ASSOC); 
@@ -32,17 +34,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 ?>
 
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Hackathon 20</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="../extern/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="../extern/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
-    <link href="../css/dashboard.css" rel="stylesheet" media="screen">
-  </head>
+
   <body>
     <div id="id-cockpit-bar" class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -65,7 +57,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 						<a href="./message_create.php">Create Message</a>
 					  </li>
                 	  <li>
-						<a href="./logout.php">Log-Out</a>
+						<form action="#" method="post"><input type='submit' name='logout' value='Log-Out'\></form>
 					  </li>
                 </ul>
               </li>
@@ -84,7 +76,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
     <div class="container">
       <div id="id-operative-area" class="row">
 	  <br>
-	  <h2>Hackathon</h2>
+	  <h2>List Messages</h2>
 		<?php if (isset($error_message)) {echo $error_message;} ?>
       	<form action="#" method="post">
 			<table>

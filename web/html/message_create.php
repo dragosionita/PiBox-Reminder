@@ -1,4 +1,6 @@
 ﻿<?php
+include 'header.php';
+
 if(isset($_POST['user']) && !isset($_POST['pass']))
 {
 	$error_message = "Please insert your passwor";
@@ -32,17 +34,6 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 ?>
 
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Hackathon 20</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="../extern/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="../extern/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
-    <link href="../css/dashboard.css" rel="stylesheet" media="screen">
-  </head>
   <body>
     <div id="id-cockpit-bar" class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -65,7 +56,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 						<a href="./message_list.php">List Messages</a>
 					  </li> 
 					  <li>
-						<a href="./logout.php">Log-Out</a>
+							<form action="#" method="post"><input type='submit' name='logout' value='Log-Out'\></form>
 					  </li>
                 </ul>
               </li>
@@ -84,7 +75,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
     <div class="container">
       <div id="id-operative-area" class="row">
 	  <br>
-	  <h2>Hackathon</h2>
+	  <h2>Create Message</h2>
 		<?php if (isset($error_message)) {echo $error_message;} ?>
       	<form action="#" method="post">
 			<table>

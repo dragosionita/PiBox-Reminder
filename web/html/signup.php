@@ -1,33 +1,46 @@
 ﻿<?php
-if(isset($_POST['user']) && !isset($_POST['pass']))
+
+if(!isset($_POST['location']))
 {
-	$error_message = "Please insert your passwor";
+	$error_message = "Please define your location";
 }
-else if(!isset($_POST['user']) && isset($_POST['pass']))
+else if(!isset($_POST['nume']))
 {
-	$error_message = "Please insert your user name";
+	$error_message = "Please insert your name";
+}
+else if(isset($_POST['pass']) && isset($_POST['pass1']) && ($_POST['pass'] != $_POST['pass1']))
+{
+	$error_message = "Different passwords";
+}
+else if(!isset($_POST['pass']))
+{
+	$error_message = "Please insert your password";
+}
+else if(!isset($_POST['pass']))
+{
+	$error_message = "Please insert a username";
 }
 else if(isset($_POST['user']) && isset($_POST['pass']))
 {
-	$dbhandle = sqlite_open('..\..\..\db\hackathon.sdb');
-	
-	if (isset($_POST['login']))
+	if (isset($_POST['signup']))
 	{
-		if (!$dbhandle) die ($error);
-		$query = "SELECT * FROM user ";
+		echo ("<br><br><br><br><br>debug");
+		$dbhandle = sqlite_open('..\..\..\db\hackathon.sdb');
+		$query = "insert into user (location, nume, username, password) values ('".$_POST['location']."','".$_POST['nume']."','".$_POST['user']."', '".$_POST['pass']."' )";
 		$result = sqlite_query($dbhandle, $query);
 		if (!$result) die("Cannot execute query.");
-		$row = sqlite_fetch_array($result, SQLITE_ASSOC); 
-		print_r($row);
+		$row = sqlite_fetch_array($result, SQLITE_ASSOC);
+		sqlite_close($dbhandle);
+		if (last_insert_rowid() < 1) 
+		{
+			$error_message = "Error: Existent username";
+		}
+		else
+		{
+			$success_message = "Hello ".$_POST['nume'].".You are now loged in as  ".$row['user']." ";
+			header('Location: .\message_create.php');
+		}
 	}
-	else if (isset($_POST['signup']))
-	{
-		
-	}
-	sqlite_close($dbhandle);
-	
-	$error_message = "Wrong username or password";
-	$success_message = "Your are now logged in";
 }
 ?>
 
@@ -81,18 +94,27 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
     <div class="container">
       <div id="id-operative-area" class="row">
 	  <br>
-	  <h2>Hackathon</h2>
+	  <h2>Sign-Up</h2>
 		<?php if (isset($error_message)) {echo $error_message;} ?>
       	<form action="#" method="post">
 			<table>
 				<tr>
-					<td><label>User</label></td><td><input name='user' type='text'/></td>
+					<td><label>Location: </label></td><td><select name='location'><option>Bucuresti</option><option>Cluj</option><option>Craiova</option><option>Iasi</option><option>Timisoara</option></select></td>
 				</tr>
 				<tr>
-					<td><label>Password</label></td><td><input name='pass' type='password'/></td>
+					<td><label>Name: </label></td><td><input name='nume' type='text'/></td>
 				</tr>
 				<tr>
-					<td><input type='submit' value='Sign-Up' /></td><td><input type='submit' value='Log-In' /></td>
+					<td><label>Username: </label></td><td><input name='user' type='text'/></td>
+				</tr>
+				<tr>
+					<td><label>Password: </label></td><td><input name='pass' type='password'/></td>
+				</tr>
+				<tr>
+					<td><label>Password: </label></td><td><input name='pass1' type='password'/></td>
+				</tr>
+				<tr>
+					<td></td><td><input type='submit' value='Sign-Up!' /></td>
 				</tr>
 			</table>
 		</form>

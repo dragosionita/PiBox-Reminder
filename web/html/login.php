@@ -1,4 +1,10 @@
 ﻿<?php
+
+// Open Session
+if (!isset($_SESSION)) {
+  session_start();
+}
+
 if(isset($_POST['user']) && !isset($_POST['pass']))
 {
 	$error_message = "Please insert your passwor";
@@ -7,27 +13,22 @@ else if(!isset($_POST['user']) && isset($_POST['pass']))
 {
 	$error_message = "Please insert your user name";
 }
-else if(isset($_POST['user']) && isset($_POST['pass']))
+		
+if(isset($_POST['user']) && isset($_POST['pass']))
 {
-	$dbhandle = sqlite_open('..\..\..\db\hackathon.sdb');
-	
 	if (isset($_POST['login']))
 	{
+		$dbhandle = sqlite_open('..\..\db\hackathon.sdb');
 		if (!$dbhandle) die ($error);
-		$query = "SELECT * FROM user ";
+		$query = "SELECT * FROM user WHERE username='".$_POST['user']."' AND password = '".$_POST['pass']."' ";
 		$result = sqlite_query($dbhandle, $query);
 		if (!$result) die("Cannot execute query.");
-		$row = sqlite_fetch_array($result, SQLITE_ASSOC); 
-		print_r($row);
+		$row = sqlite_fetch_array($result, SQLITE_ASSOC);
+		$_SESSION['user_id'] = $row['user_id'];
+		$_SESSION['name'] = $row['name'];
+		sqlite_close($dbhandle);
+		header('Location: .\message_list.php');
 	}
-	else if (isset($_POST['signup']))
-	{
-		
-	}
-	sqlite_close($dbhandle);
-	
-	$error_message = "Wrong username or password";
-	$success_message = "Your are now logged in";
 }
 ?>
 
@@ -81,7 +82,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
     <div class="container">
       <div id="id-operative-area" class="row">
 	  <br>
-	  <h2>Hackathon</h2>
+	  <h2>Log-In</h2>
 		<?php if (isset($error_message)) {echo $error_message;} ?>
       	<form action="#" method="post">
 			<table>
@@ -92,7 +93,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 					<td><label>Password</label></td><td><input name='pass' type='password'/></td>
 				</tr>
 				<tr>
-					<td><input type='submit' value='Sign-Up' /></td><td><input type='submit' value='Log-In' /></td>
+					<td></td><td><input type='submit' name='login' value='Log-In!' /></td>
 				</tr>
 			</table>
 		</form>
