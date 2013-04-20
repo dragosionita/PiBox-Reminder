@@ -1,5 +1,9 @@
 ﻿<?php
-include 'header.php';
+
+// Open Session
+if (!isset($_SESSION)) {
+  session_start();
+}
 
 if(isset($_POST['user']) && !isset($_POST['pass']))
 {
@@ -9,32 +13,38 @@ else if(!isset($_POST['user']) && isset($_POST['pass']))
 {
 	$error_message = "Please insert your user name";
 }
-else if(isset($_POST['user']) && isset($_POST['pass']))
+		
+if(isset($_POST['user']) && isset($_POST['pass']))
 {
-	$dbhandle = sqlite_open('..\..\..\db\hackathon.sdb');
-	
 	if (isset($_POST['login']))
 	{
+		//$dbhandle = sqlite_open('..\..\db\hackathon.sdb');
+        $dbhandle = new SQLite3('../db/mysqlitedb.db');
 		if (!$dbhandle) die ($error);
-		$query = "SELECT * FROM reminder WHERE user_fk='1' ";
+		$query = "SELECT * FROM user WHERE username='".$_POST['user']."' AND password = '".$_POST['pass']."' ";
 		$result = sqlite_query($dbhandle, $query);
 		if (!$result) die("Cannot execute query.");
-		$row = sqlite_fetch_array($result, SQLITE_ASSOC); 
-		print_r($row);
+		$row = sqlite_fetch_array($result, SQLITE_ASSOC);
+		$_SESSION['user_id'] = $row['user_id'];
+		$_SESSION['name'] = $row['name'];
+		sqlite_close($dbhandle);
+		header('Location: .\message_list.php');
 	}
-	else if (isset($_POST['signup']))
-	{
-		
-	}
-	sqlite_close($dbhandle);
-	
-	$error_message = "Wrong username or password";
-	$success_message = "Your are now logged in";
 }
 ?>
 
 
-
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hackathon 20</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="../extern/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="../extern/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
+    <link href="../css/dashboard.css" rel="stylesheet" media="screen">
+  </head>
   <body>
     <div id="id-cockpit-bar" class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -54,10 +64,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="id_user">Menu</span> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
 					  <li>
-						<a href="./message_create.php">Create Message</a>
-					  </li>
-                	  <li>
-						<form action="#" method="post"><input type='submit' name='logout' value='Log-Out'\></form>
+						<a href="./signup.php">Sign-Up</a>
 					  </li>
                 </ul>
               </li>
@@ -76,7 +83,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
     <div class="container">
       <div id="id-operative-area" class="row">
 	  <br>
-	  <h2>List Messages</h2>
+	  <h2>Log-In</h2>
 		<?php if (isset($error_message)) {echo $error_message;} ?>
       	<form action="#" method="post">
 			<table>
@@ -87,7 +94,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 					<td><label>Password</label></td><td><input name='pass' type='password'/></td>
 				</tr>
 				<tr>
-					<td><input type='submit' value='Sign-Up' /></td><td><input type='submit' value='Log-In' /></td>
+					<td></td><td><input type='submit' name='login' value='Log-In!' /></td>
 				</tr>
 			</table>
 		</form>

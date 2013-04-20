@@ -1,5 +1,5 @@
 ﻿<?php
-include 'header.php';
+include 'index.php';
 
 if(isset($_POST['user']) && !isset($_POST['pass']))
 {
