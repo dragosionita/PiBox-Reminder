@@ -15,12 +15,10 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 	
 	if (isset($_POST['login']))
 	{
-		if (!$dbhandle) die ($error);
-		$query = "SELECT * FROM user ";
-		$result = sqlite_query($dbhandle, $query);
-		if (!$result) die("Cannot execute query.");
-		$row = sqlite_fetch_array($result, SQLITE_ASSOC); 
-		print_r($row);
+			$query = "insert into user (name, username, password) values ('".$_POST['nume']."','".$_POST['user']."', '".$_POST['pass']."' )";
+			$result = sqlite_query($dbhandle, $query) or die("duplicate");
+			if (!$result) die("Cannot execute query.");
+			$row = sqlite_fetch_array($result, SQLITE_ASSOC);
 	}
 	else if (isset($_POST['signup']))
 	{
@@ -80,13 +78,16 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
       	<form action="#" method="post">
 			<table>
 				<tr>
-					<td><label>User</label></td><td><input name='user' type='text'/></td>
+					<td><label>Subject:</label></td><td><input name='subject' type='text'/></td>
 				</tr>
 				<tr>
-					<td><label>Password</label></td><td><input name='pass' type='password'/></td>
+					<td><label>Text:</label></td><td><textarea name='text'></textarea></td>
 				</tr>
 				<tr>
-					<td><input type='submit' value='Sign-Up' /></td><td><input type='submit' value='Log-In' /></td>
+					<td><label>Scheduled:</label></td><td><input name='scheduled' type='text'/></td>
+				</tr>
+				<tr>
+					<td></td><td style='text-align:right'><input type='submit' name='save' value='Save' /></td>
 				</tr>
 			</table>
 		</form>

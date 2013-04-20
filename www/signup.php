@@ -1,5 +1,10 @@
 ﻿<?php
 
+// Open Session
+if (!isset($_SESSION)) {
+  session_start();
+}
+
 if(!isset($_POST['location']))
 {
 	$error_message = "Please define your location";
@@ -24,20 +29,35 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 {
 	if (isset($_POST['signup']))
 	{
-		echo ("<br><br><br><br><br>debug");
-		$dbhandle = sqlite_open('..\..\..\db\hackathon.sdb');
-		$query = "insert into user (location, nume, username, password) values ('".$_POST['location']."','".$_POST['nume']."','".$_POST['user']."', '".$_POST['pass']."' )";
+		$dbhandle = sqlite_open('..\..\db\hackathon.sdb');
+
+		$query = "SELECT * FROM user WHERE username='".$_POST['user']."' ";
 		$result = sqlite_query($dbhandle, $query);
 		if (!$result) die("Cannot execute query.");
 		$row = sqlite_fetch_array($result, SQLITE_ASSOC);
-		sqlite_close($dbhandle);
-		if (last_insert_rowid() < 1) 
+		if ($row['user_id'] > 0)
 		{
-			$error_message = "Error: Existent username";
+			//echo("<br><br><br><br><br><br><br>");
+			//print_r($row['user_id']);
+			$error_message = "User name not available!";
 		}
 		else
-		{
-			$success_message = "Hello ".$_POST['nume'].".You are now loged in as  ".$row['user']." ";
+		{	
+			//$query = "insert into user (location, name, username, password) values ('".$_POST['location']."','".$_POST['nume']."','".$_POST['user']."', '".$_POST['pass']."' )";
+			$query = "insert into user (name, username, password) values ('".$_POST['nume']."','".$_POST['user']."', '".$_POST['pass']."' )";
+			$result = sqlite_query($dbhandle, $query) or die("duplicate");
+			if (!$result) die("Cannot execute query.");
+			$row = sqlite_fetch_array($result, SQLITE_ASSOC);
+			print_r($row);
+			$query = "SELECT * FROM user WHERE username='".$_POST['user']."' ";
+			$result = sqlite_query($dbhandle, $query) or die("duplicate");
+			if (!$result) die("Cannot execute query.");
+			$row = sqlite_fetch_array($result, SQLITE_ASSOC);
+			$_SESSION['user_id'] = $row['user_id'];
+			$_SESSION['name'] = $row['name'];
+		
+			sqlite_close($dbhandle);
+			
 			header('Location: .\message_create.php');
 		}
 	}
@@ -99,10 +119,10 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
       	<form action="#" method="post">
 			<table>
 				<tr>
-					<td><label>Location: </label></td><td><select name='location'><option>Bucuresti</option><option>Cluj</option><option>Craiova</option><option>Iasi</option><option>Timisoara</option></select></td>
+					<td><label>Name: </label></td><td><input name='nume' type='text'/></td>
 				</tr>
 				<tr>
-					<td><label>Name: </label></td><td><input name='nume' type='text'/></td>
+					<td><label>Location: </label></td><td><select name='location'><option>Bucuresti</option><option>Cluj</option><option>Craiova</option><option>Iasi</option><option>Timisoara</option></select></td>
 				</tr>
 				<tr>
 					<td><label>Username: </label></td><td><input name='user' type='text'/></td>
@@ -114,7 +134,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 					<td><label>Password: </label></td><td><input name='pass1' type='password'/></td>
 				</tr>
 				<tr>
-					<td></td><td><input type='submit' value='Sign-Up!' /></td>
+					<td></td><td><input type='submit' name='signup' value='Sign-Up!' /></td>
 				</tr>
 			</table>
 		</form>
