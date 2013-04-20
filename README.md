@@ -16,7 +16,7 @@ din viata familiei dumneavoastra.
 
 Hackateam:
 
-Ionita Dragos Cristian
-Saligny Radu
-Luiza Balasa
+Ionita Dragos Cristian, 
+Saligny Radu, 
+Luiza Balasa, 
 Cumpanasu Florin
