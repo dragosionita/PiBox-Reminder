@@ -12,7 +12,7 @@ class Adafruit_CharLCD:
 
     # commands
     LCD_CLEARDISPLAY 		= 0x01
-    LCD_RETURNHOME 	    	= 0x02
+    LCD_RETURNHOME 		= 0x02
     LCD_ENTRYMODESET 		= 0x04
     LCD_DISPLAYCONTROL 		= 0x08
     LCD_CURSORSHIFT 		= 0x10
@@ -85,29 +85,10 @@ class Adafruit_CharLCD:
 	""" Initialize to default text direction (for romance languages) """
 	self.displaymode =  self.LCD_ENTRYLEFT | self.LCD_ENTRYSHIFTDECREMENT
 	self.write4bits(self.LCD_ENTRYMODESET | self.displaymode) #  set the entry mode
-	
-	"""  Initialize charater """
 
-        self.write4bits(self.LCD_SETCGRAMADDR+0)
-        for i in range(8):
-            self.write4bits(0x00,True)
-        self.write4bits(self.LCD_SETCGRAMADDR+8)
-        for i in range(8):
-            self.write4bits(0x10,True)
-        self.write4bits(self.LCD_SETCGRAMADDR+16)
-        for i in range(8):
-            self.write4bits(0x18,True)
-        self.write4bits(self.LCD_SETCGRAMADDR+24)
-        for i in range(8):
-            self.write4bits(0x1c,True)
-        self.write4bits(self.LCD_SETCGRAMADDR+32)
-        for i in range(8):
-            self.write4bits(0x1e,True)
-        self.write4bits(self.LCD_SETCGRAMADDR+40)
-        for i in range(8):
-            self.write4bits(0x1f,True)
-	self.clear()
-	
+        self.clear()
+
+
     def begin(self, cols, lines):
 
 	if (lines > 1):
@@ -265,17 +246,10 @@ class Adafruit_CharLCD:
         """ Send string to LCD. Newline wraps to second line"""
 
         for char in text:
-
             if char == '\n':
                 self.write4bits(0xC0) # next line
             else:
                 self.write4bits(ord(char),True)
-	
-	def clop(self):
-		self.write4bits(self.LCD_SETCGRAMADDR+56)
-       	for b in [0x00,0x04,0x0e,0x0a,0x11,0x11,0x1f,0x16,0x00]:
-
-			self.write4bits(b,True)
 
 
 if __name__ == '__main__':
@@ -283,5 +257,5 @@ if __name__ == '__main__':
     lcd = Adafruit_CharLCD()
 
     lcd.clear()
-    lcd.message("Hello PiBox Reminder") 
-   
+    lcd.message("  Adafruit 16x2\n  Standard LCD")
+
