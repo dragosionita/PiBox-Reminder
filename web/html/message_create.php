@@ -62,7 +62,10 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="id_user">Menu</span> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
 					  <li>
-						<a href="./signup.php">Sign-Up</a>
+						<a href="./message_list.php">List Messages</a>
+					  </li> 
+					  <li>
+						<a href="./logout.php">Log-Out</a>
 					  </li>
                 </ul>
               </li>
