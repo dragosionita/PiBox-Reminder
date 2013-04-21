@@ -95,10 +95,14 @@ if(isset($_POST['user']) && isset($_POST['pass']))
     <div class="container">
       <div id="id-operative-area" class="row">
 	  <br>
+	  <img src='logo.png' height="150" width="280">
 	  <h2>Log-In</h2>
 		<?php if (isset($error_message)) {echo "<span style='color: red; padding: 5px'>".$error_message."</span>";} ?>
       	<form action="login.php" method="post">
 			<table>
+				<tr>
+					<td colspan='2'></td>
+				</tr>
 				<tr>
 					<td><label>User</label></td><td><input name='user' type='text'/></td>
 				</tr>
