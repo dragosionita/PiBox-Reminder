@@ -49,6 +49,9 @@ if(isset($_POST['subject']))
 						<a href="./message_list.php">List Messages</a>
 					  </li> 
 					  <li>
+						<a href="./webcam.php">Camera</a>
+					  </li> 
+					  <li>
 							<form action="#" method="post"><input type='submit' name='logout' value='Log-Out'\></form>
 					  </li>
                 </ul>

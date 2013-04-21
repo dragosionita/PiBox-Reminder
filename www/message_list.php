@@ -24,6 +24,9 @@ include 'index.php';
 						<a href="./message_create.php">Create Message</a>
 					  </li>
                 	  <li>
+						<a href="./webcam.php>Camera</a>
+					  </li>
+                	  <li>
 						<form action="#" method="post"><input type='submit' class="btn btn-primary" name='logout' value='Log-Out'\></form>
 					  </li>
                 </ul>
