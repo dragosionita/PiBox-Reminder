@@ -79,7 +79,10 @@ if(isset($_POST['subject']))
 					<td><label>Subject:</label></td><td><input name='subject' type='text'/></td>
 				</tr>
 				<tr>
-					<td><label>Text:</label></td><td><textarea name='text'></textarea></td>
+					<td><label>Text:</label></td><td><textarea name='text'>My master. In 20 minutes prepare yourself to collect the prize for best hardware project in Rasberry Hackathon ! 
+Thank you PiBox Team for bringing me from future. My master. In 20 minutes prepare yourself to collect the prize for best hardware project in Rasberry Hackathon ! 
+Thank you PiBox Team for bringing me from future. My master. In 20 minutes prepare yourself to collect the prize for best hardware project in Rasberry Hackathon ! 
+Thank you PiBox Team for bringing me from future.</textarea></td>
 				</tr>
 				<tr>
 					<td><label>Scheduled:</label></td><td><input name='scheduled' value='<?php echo date("Y-m-d H:i:s", time()); ?>' id='dp1' type='text'/></td>
