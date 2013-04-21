@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `reminder` (
   `reminder_id` int(11) NOT NULL AUTO_INCREMENT,
   `subject` varchar(60) NOT NULL,
   `text` varchar(300) NOT NULL,
-  `scheduled` datetime NOT NULL,
+  `scheduled` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`reminder_id`)

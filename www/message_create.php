@@ -6,17 +6,20 @@ if(isset($_POST['subject']))
 	if (isset($_POST['save']))
 	{
 		$server='localhost';
-		$database='test';
-		$uid=null;
-		$pwd=null;
-		$con=mysql_connect($server, $database, $uid, $pwd) or die(mysql_error());
-		mysql_select_db('test');
+		$database='pibox';
+		$uid='root';
+		$pwd='dragos1234';
+		$con=mysql_connect($server, $uid, $pwd) or die(mysql_error());
+		mysql_select_db('pibox');
 		// Check connection
 		if (mysql_errno())
 		{
 			echo "Failed to connect to MySQL: " . mysql_error();
 		}
-		$query = "insert into reminder (user_id, subject, text, scheduled) values ('".$_SESSION['user_id']."','".$_POST['subject']."','".$_POST['text']."', '".$_POST['scheduled']."' ); ";
+
+        $date = new DateTime($_POST['scheduled']);
+        $tms = $date->getTimestamp();
+		$query = "insert into reminder (user_id, subject, text, scheduled) values ('".$_SESSION['user_id']."','".$_POST['subject']."','".$_POST['text']."', '".$tms."' ); ";
 		$result = mysql_query($query);
 		header('Location: .\message_list.php');
 	}

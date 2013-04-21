@@ -8,10 +8,18 @@ import subprocess
 import RPi.GPIO as GPIO
 import time
 import os
+from datetime import datetime
 
 import urllib2
 from json import load
 
+import MySQLdb as mdb
+import sys
+
+print time.time()
+
+#Database connection
+con = mdb.connect('localhost', 'root', 'dragos1234', 'pibox');
 
 #Global variables
 buttonPressed = False
@@ -58,19 +66,26 @@ def ip():
     
 def wheather():
     LCDmessage('    Wheather')
-    speech(getWeatherText(location))
+    #speech(getWeatherText(location))
 
 def facebook():
     LCDmessage('    Facebook')
 
 def reminder():
+    cur = con.cursor()
+    cur.execute("SELECT * FROM reminder") #$where scheduled='"+str(datetime.now())[:19] + "'")
+    print str(datetime.now())[:19]
+    numrows = int(cur.rowcount)
+    for i in range(numrows):
+        row = cur.fetchone()
+        #print row[3]
+        if (row):
+            print str(row[3])
     LCDmessage('    Reminder')
-
-
 
 while True:
     if (GPIO.input(17) == False):
-        print(menu[currentMenu]);
+        print(menu[currentMenu])
         
         if (menu[currentMenu] == 'Ip'):
             ip()
@@ -85,8 +100,12 @@ while True:
         currentMenu = currentMenu + 1
         if (currentMenu > len(menu)-1):
             currentMenu = 0
-        time.sleep(1)
+        
     else:
         buttonPressed = False
+        if (menu[currentMenu-1] == 'Reminder'):
+            reminder()
 
+    
+    time.sleep(0.5)
 

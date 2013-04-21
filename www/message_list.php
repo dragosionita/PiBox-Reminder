@@ -46,11 +46,11 @@ include 'index.php';
 	  <h2>List Messages</h2>
 		<?php
 		$server='localhost';
-		$database='test';
-		$uid=null;
-		$pwd=null;
-		$con=mysql_connect($server, $database, $uid, $pwd) or die(mysql_error());
-		mysql_select_db('test');
+		$database='pibox';
+		$uid='root';
+		$pwd='dragos1234';
+		$con=mysql_connect($server, $uid, $pwd) or die(mysql_error());
+		mysql_select_db('pibox');
 		// Check connection
 		if (mysql_errno())
 		{

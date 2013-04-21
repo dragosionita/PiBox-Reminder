@@ -37,11 +37,11 @@ else
   
   <?php
   $server='localhost';
-  $database='test';
-  $uid=null;
-  $pwd=null;
+  $database='pibox';
+  $uid='root';
+  $pwd='dragos1234';
   
-	$con=mysqli_connect($server, $database, $uid, $pwd);
+	$con=mysqli_connect($server, $uid, $pwd);
 	// Check connection
 	if (mysqli_connect_errno())
 	{

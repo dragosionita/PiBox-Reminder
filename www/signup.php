@@ -31,11 +31,11 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 	{
 		
 		$server='localhost';
-		$database='test';
-		$uid=null;
-		$pwd=null;
-		$con=mysql_connect($server, $database, $uid, $pwd) or die(mysql_error());
-		mysql_select_db('test');
+		$database='pibox';
+		$uid='root';
+		$pwd='dragos1234';
+		$con=mysql_connect($server, $uid, $pwd) or die(mysql_error());
+		mysql_select_db($database);
 		// Check connection
 		if (mysql_errno())
 		{
