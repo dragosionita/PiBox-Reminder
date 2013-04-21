@@ -16,14 +16,14 @@ from json import load
 import MySQLdb as mdb
 import sys
 
-print time.time()
+
 
 #Database connection
 con = mdb.connect('localhost', 'root', 'dragos1234', 'pibox');
 
 #Global variables
 buttonPressed = False
-menu = ['Wheather', 'Facebook', 'Reminder', 'Ip']
+menu = ['Stand By', 'Wheather', 'Reminder', 'Ip']
 currentMenu = 0
 
 firstMessage = '     Hello\n PiBox Reminder'
@@ -66,31 +66,35 @@ def ip():
     
 def wheather():
     LCDmessage('    Wheather')
-    #speech(getWeatherText(location))
+    speech(getWeatherText(location))
+
+def standby():
+    LCDmessage('    Stand By')
 
 def facebook():
     LCDmessage('    Facebook')
 
 def reminder():
+    con = mdb.connect('localhost', 'root', 'dragos1234', 'pibox');
     cur = con.cursor()
     cur.execute("SELECT * FROM reminder") #$where scheduled='"+str(datetime.now())[:19] + "'")
-    print str(datetime.now())[:19]
+    tm = time.time()
+    tm = str(round(tm)).rstrip('0').rstrip('.')
     numrows = int(cur.rowcount)
     for i in range(numrows):
         row = cur.fetchone()
-        #print row[3]
-        if (row):
-            print str(row[3])
+        if (tm == str(row[3])):
+            speech(str(row[2]))
+            
     LCDmessage('    Reminder')
 
 while True:
     if (GPIO.input(17) == False):
-        print(menu[currentMenu])
         
         if (menu[currentMenu] == 'Ip'):
             ip()
-        elif (menu[currentMenu] == 'Facebook'):
-            facebook()
+        elif (menu[currentMenu] == 'Stand By'):
+            standby()
         elif (menu[currentMenu] == 'Reminder'):
             reminder()
         elif (menu[currentMenu] == 'Wheather'):
