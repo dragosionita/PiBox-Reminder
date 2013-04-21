@@ -1,33 +1,25 @@
 ﻿<?php
 include 'index.php';
 
-if(isset($_POST['user']) && !isset($_POST['pass']))
+if(isset($_POST['subject']))
 {
-	$error_message = "Please insert your passwor";
-}
-else if(!isset($_POST['user']) && isset($_POST['pass']))
-{
-	$error_message = "Please insert your user name";
-}
-else if(isset($_POST['user']) && isset($_POST['pass']))
-{
-	$dbhandle = sqlite_open('..\..\..\db\hackathon.sdb');
-	
-	if (isset($_POST['login']))
+	if (isset($_POST['save']))
 	{
-			$query = "insert into user (name, username, password) values ('".$_POST['nume']."','".$_POST['user']."', '".$_POST['pass']."' )";
-			$result = sqlite_query($dbhandle, $query) or die("duplicate");
-			if (!$result) die("Cannot execute query.");
-			$row = sqlite_fetch_array($result, SQLITE_ASSOC);
+		$server='localhost';
+		$database='test';
+		$uid=null;
+		$pwd=null;
+		$con=mysql_connect($server, $database, $uid, $pwd) or die(mysql_error());
+		mysql_select_db('test');
+		// Check connection
+		if (mysql_errno())
+		{
+			echo "Failed to connect to MySQL: " . mysql_error();
+		}
+		$query = "insert into reminder (user_id, subject, text, scheduled) values ('".$_SESSION['user_id']."','".$_POST['subject']."','".$_POST['text']."', '".$_POST['scheduled']."' ); ";
+		$result = mysql_query($query);
+		header('Location: .\message_list.php');
 	}
-	else if (isset($_POST['signup']))
-	{
-		
-	}
-	sqlite_close($dbhandle);
-	
-	$error_message = "Wrong username or password";
-	$success_message = "Your are now logged in";
 }
 ?>
 
@@ -96,11 +88,12 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 
 
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="../extern/jquery-cookie/jquery-1.9.0.js"></script>
-    <script src="../extern/jquery-cookie/jquery.cookie.js"></script>
-    <script src="../extern/bootstrap/js/bootstrap.js"></script>
-    <script src="../js/backend.js"></script>
-    <script src="../js/helper.js"></script>
+    <script src="./extern/jquery-cookie/jquery-1.9.0.js"></script>
+    <script src="./extern/jquery-cookie/jquery.cookie.js"></script>
+    <script src="./extern/bootstrap/js/bootstrap.js"></script>
+    <script src="./js/backend.js"></script>
+    <script src="./js/helper.js"></script>
     <script></script>
   </body>
 </html>
+<?php include 'logout.php'; ?>

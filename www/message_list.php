@@ -1,39 +1,6 @@
 ﻿<?php
-include 'index.php';
-
-if(isset($_POST['user']) && !isset($_POST['pass']))
-{
-	$error_message = "Please insert your passwor";
-}
-else if(!isset($_POST['user']) && isset($_POST['pass']))
-{
-	$error_message = "Please insert your user name";
-}
-else if(isset($_POST['user']) && isset($_POST['pass']))
-{
-	$dbhandle = sqlite_open('..\..\..\db\hackathon.sdb');
-	
-	if (isset($_POST['login']))
-	{
-		if (!$dbhandle) die ($error);
-		$query = "SELECT * FROM reminder WHERE user_fk='1' ";
-		$result = sqlite_query($dbhandle, $query);
-		if (!$result) die("Cannot execute query.");
-		$row = sqlite_fetch_array($result, SQLITE_ASSOC); 
-		print_r($row);
-	}
-	else if (isset($_POST['signup']))
-	{
-		
-	}
-	sqlite_close($dbhandle);
-	
-	$error_message = "Wrong username or password";
-	$success_message = "Your are now logged in";
-}
+include 'index.php';		
 ?>
-
-
 
   <body>
     <div id="id-cockpit-bar" class="navbar navbar-inverse navbar-fixed-top">
@@ -57,7 +24,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 						<a href="./message_create.php">Create Message</a>
 					  </li>
                 	  <li>
-						<form action="#" method="post"><input type='submit' name='logout' value='Log-Out'\></form>
+						<form action="#" method="post"><input type='submit' class="btn btn-primary" name='logout' value='Log-Out'\></form>
 					  </li>
                 </ul>
               </li>
@@ -73,34 +40,51 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
       </div>
     </header>
 
-    <div class="container">
+    <div class="container" style="margin:0 auto; width:250px">
       <div id="id-operative-area" class="row">
 	  <br>
 	  <h2>List Messages</h2>
-		<?php if (isset($error_message)) {echo $error_message;} ?>
-      	<form action="#" method="post">
-			<table>
-				<tr>
-					<td><label>User</label></td><td><input name='user' type='text'/></td>
-				</tr>
-				<tr>
-					<td><label>Password</label></td><td><input name='pass' type='password'/></td>
-				</tr>
-				<tr>
-					<td><input type='submit' value='Sign-Up' /></td><td><input type='submit' value='Log-In' /></td>
-				</tr>
-			</table>
-		</form>
+		<?php
+		$server='localhost';
+		$database='test';
+		$uid=null;
+		$pwd=null;
+		$con=mysql_connect($server, $database, $uid, $pwd) or die(mysql_error());
+		mysql_select_db('test');
+		// Check connection
+		if (mysql_errno())
+		{
+			echo "Failed to connect to MySQL: " . mysql_error();
+		}
+		$result = mysql_query(" SELECT * FROM reminder WHERE user_id='".$_SESSION['user_id']."' ")or die(mysql_error()); 
+		//$result = mysql_query(" SELECT * FROM reminder ")or die(mysql_error()); 
+		if (mysql_num_rows($result)<1)
+		{
+			$error_message = "You have no messages !";
+		}
+		else
+		{
+							
+			echo('<table clas="table" style="border: 1 solid gray"><tr><th></th><th>Your message list</th></tr>');
+			while($row = mysql_fetch_array($result))
+			{
+				echo('<tr style="border: 1 solid red"><td style="color: blue">Subject</td><td style="color: red">'.$row['subject'].'</td></tr><tr><td>Text</td><td>'.$row['text'].'</td></tr><tr><td>Scheduled</td><td>'.$row['scheduled'].'</td></tr>');
+			}
+			echo('</table>');
+			
+		}
+		?>
       </div>
     </div>
 
 
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="../extern/jquery-cookie/jquery-1.9.0.js"></script>
-    <script src="../extern/jquery-cookie/jquery.cookie.js"></script>
-    <script src="../extern/bootstrap/js/bootstrap.js"></script>
-    <script src="../js/backend.js"></script>
-    <script src="../js/helper.js"></script>
+    <script src="./extern/jquery-cookie/jquery-1.9.0.js"></script>
+    <script src="./extern/jquery-cookie/jquery.cookie.js"></script>
+    <script src="./extern/bootstrap/js/bootstrap.js"></script>
+    <script src="./js/backend.js"></script>
+    <script src="./js/helper.js"></script>
     <script></script>
   </body>
 </html>
+<?php include 'logout.php'; ?>

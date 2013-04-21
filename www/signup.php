@@ -29,35 +29,38 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 {
 	if (isset($_POST['signup']))
 	{
-		$dbhandle = sqlite_open('..\..\db\hackathon.sdb');
-
-		$query = "SELECT * FROM user WHERE username='".$_POST['user']."' ";
-		$result = sqlite_query($dbhandle, $query);
-		if (!$result) die("Cannot execute query.");
-		$row = sqlite_fetch_array($result, SQLITE_ASSOC);
-		if ($row['user_id'] > 0)
+		
+		$server='localhost';
+		$database='test';
+		$uid=null;
+		$pwd=null;
+		$con=mysql_connect($server, $database, $uid, $pwd) or die(mysql_error());
+		mysql_select_db('test');
+		// Check connection
+		if (mysql_errno())
 		{
-			//echo("<br><br><br><br><br><br><br>");
-			//print_r($row['user_id']);
-			$error_message = "User name not available!";
+			echo "Failed to connect to MySQL: " . mysql_error();
+		}
+		$result = mysql_query(" SELECT * FROM user WHERE username='".$_POST['user']."' ")or die(mysql_error()); 
+		if (mysql_num_rows($result)>0)
+		{
+			$error_message = "User Exists !";
 		}
 		else
 		{	
 			//$query = "insert into user (location, name, username, password) values ('".$_POST['location']."','".$_POST['nume']."','".$_POST['user']."', '".$_POST['pass']."' )";
-			$query = "insert into user (name, username, password) values ('".$_POST['nume']."','".$_POST['user']."', '".$_POST['pass']."' )";
-			$result = sqlite_query($dbhandle, $query) or die("duplicate");
+			$query = "insert into user (location, name, username, password) values ('".$_POST['location']."','".$_POST['nume']."','".$_POST['user']."', '".md5($_POST['pass'])."' )";
+			$result = mysql_query($query) or die(mysql_error());
 			if (!$result) die("Cannot execute query.");
-			$row = sqlite_fetch_array($result, SQLITE_ASSOC);
-			print_r($row);
+			$row = mysql_fetch_array($result);
 			$query = "SELECT * FROM user WHERE username='".$_POST['user']."' ";
-			$result = sqlite_query($dbhandle, $query) or die("duplicate");
+			$result = mysql_query($query) or die(mysql_error());
 			if (!$result) die("Cannot execute query.");
-			$row = sqlite_fetch_array($result, SQLITE_ASSOC);
+			$row = mysql_fetch_array($result);
 			$_SESSION['user_id'] = $row['user_id'];
 			$_SESSION['name'] = $row['name'];
-		
-			sqlite_close($dbhandle);
-			
+
+			mysql_close($con);
 			header('Location: .\message_create.php');
 		}
 	}
@@ -72,9 +75,9 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="../extern/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="../extern/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
-    <link href="../css/dashboard.css" rel="stylesheet" media="screen">
+    <link href="./extern/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="./extern/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
+    <link href="./css/dashboard.css" rel="stylesheet" media="screen">
   </head>
   <body>
     <div id="id-cockpit-bar" class="navbar navbar-inverse navbar-fixed-top">
@@ -143,11 +146,11 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 
 
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="../extern/jquery-cookie/jquery-1.9.0.js"></script>
-    <script src="../extern/jquery-cookie/jquery.cookie.js"></script>
-    <script src="../extern/bootstrap/js/bootstrap.js"></script>
-    <script src="../js/backend.js"></script>
-    <script src="../js/helper.js"></script>
+    <script src="./extern/jquery-cookie/jquery-1.9.0.js"></script>
+    <script src="./extern/jquery-cookie/jquery.cookie.js"></script>
+    <script src="./extern/bootstrap/js/bootstrap.js"></script>
+    <script src="./js/backend.js"></script>
+    <script src="./js/helper.js"></script>
     <script></script>
   </body>
 </html>
