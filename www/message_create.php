@@ -26,7 +26,6 @@ if(isset($_POST['subject']))
 }
 ?>
 
-<img style="position:absolute; left:0px; top:0px; z-index:10" src='logo.png'>
   <body>
     <div id="id-cockpit-bar" class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
