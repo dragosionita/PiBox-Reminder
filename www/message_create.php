@@ -26,7 +26,7 @@ if(isset($_POST['subject']))
 }
 ?>
 
-
+<img style="position:absolute; left:0px; top:0px; z-index:10" src='logo.png'>
   <body>
     <div id="id-cockpit-bar" class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -71,6 +71,7 @@ if(isset($_POST['subject']))
     <div class="container">
       <div id="id-operative-area" class="row">
 	  <br>
+	  <img src='logo.png' height="150" width="280">
 	  <h2>Create Message</h2>
 		<?php if (isset($error_message)) {echo $error_message;} ?>
       	<form action="#" method="post">

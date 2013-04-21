@@ -46,6 +46,7 @@ include 'header.php';
     <div class="container" style="margin:0 auto; width:250px">
       <div id="id-operative-area" class="row">
 	  <br>
+	  <img src='logo.png' height="150" width="280">
 	  <h2>List Messages</h2>
 		<?php
 		$server='localhost';

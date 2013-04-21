@@ -118,6 +118,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
     <div class="container">
       <div id="id-operative-area" class="row">
 	  <br>
+	  <img src='logo.png' height="150" width="280">
 	  <h2>Sign-Up</h2>
 		<?php if (isset($error_message)) {echo $error_message;} ?>
       	<form action="#" method="post">

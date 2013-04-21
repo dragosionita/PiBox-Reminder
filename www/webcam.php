@@ -46,6 +46,7 @@ include 'header.php';
     <div class="container" style="margin:0 auto; width:250px">
       <div id="id-operative-area" class="row">
 	  <br>
+	  <img src='logo.png' height="150" width="280">
 	  <h2>Webcam</h2>
 		<img src="http://10.10.0.13:8090/?action=stream" width="752">
       </div>
