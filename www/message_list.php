@@ -68,7 +68,7 @@ include 'index.php';
 			echo('<table clas="table" style="border: 1 solid gray"><tr><th></th><th>Your message list</th></tr>');
 			while($row = mysql_fetch_array($result))
 			{
-				echo('<tr style="border: 1 solid red"><td style="color: blue">Subject</td><td style="color: red">'.$row['subject'].'</td></tr><tr><td>Text</td><td>'.$row['text'].'</td></tr><tr><td>Scheduled</td><td>'.$row['scheduled'].'</td></tr>');
+				echo('<tr style="border: 1 solid red"><td style="color: blue">Subject</td><td style="color: red">'.$row['subject'].'</td></tr><tr><td>Text</td><td>'.$row['text'].'</td></tr><tr><td>Scheduled</td><td>'.$datetime = date("Y-m-d H:i:s", $row['scheduled']).'</td></tr>');
 			}
 			echo('</table>');
 			

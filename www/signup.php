@@ -50,6 +50,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 		{	
 			//$query = "insert into user (location, name, username, password) values ('".$_POST['location']."','".$_POST['nume']."','".$_POST['user']."', '".$_POST['pass']."' )";
 			$query = "insert into user (location, name, username, password) values ('".$_POST['location']."','".$_POST['nume']."','".$_POST['user']."', '".md5($_POST['pass'])."' )";
+			$query = "insert into user (name, username, password) values ('".$_POST['nume']."','".$_POST['user']."', '".md5($_POST['pass'])."' )";
 			$result = mysql_query($query) or die(mysql_error());
 			if (!$result) die("Cannot execute query.");
 			$row = mysql_fetch_array($result);
@@ -124,9 +125,9 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
 				<tr>
 					<td><label>Name: </label></td><td><input name='nume' type='text'/></td>
 				</tr>
-				<tr>
+				<!--tr>
 					<td><label>Location: </label></td><td><select name='location'><option>Bucuresti</option><option>Cluj</option><option>Craiova</option><option>Iasi</option><option>Timisoara</option></select></td>
-				</tr>
+				</tr-->
 				<tr>
 					<td><label>Username: </label></td><td><input name='user' type='text'/></td>
 				</tr>
