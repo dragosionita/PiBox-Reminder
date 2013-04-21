@@ -23,6 +23,7 @@ else
 	echo("<br><br><br><br>Hello, <span style='color: green'>".$_SESSION['name'])."</span>.";
 }
 ?>
+<img src='logo.png'>
 <!DOCTYPE html>
 <html>
   <head>

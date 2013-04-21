@@ -115,7 +115,7 @@ else if(isset($_POST['user']) && isset($_POST['pass']))
       </div>
     </header>
 
-    <div class="container">
+    <div class="container" style="margin:0 auto; width:250px">
       <div id="id-operative-area" class="row">
 	  <br>
 	  <img src='logo.png' height="150" width="280">
